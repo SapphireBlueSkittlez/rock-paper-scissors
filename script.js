@@ -1,4 +1,21 @@
-//Get user input
+//Get user input from buttons
+let buttons = document.getElementsByClassName('choice');
+let compScore = 0;
+let userScore = 0;
+let scoreBoard = document.getElementById('results');
+
+Array.from(buttons).forEach((button) => {
+    button.addEventListener('click', () => {
+        playRound(button.textContent, getComputerChoice());
+        if(compScore == 5) {
+            scoreBoard.textContent = 'Computer wins!';
+        } else if(userScore == 5) {
+            scoreBoard.textContent = 'You win!';
+        }
+    });
+});
+
+//Get user input from prompt
 function getUserInput() {
     let userInput = prompt("Choose Rock, Paper, or Scissors: ", "");
     let playerSelection = userInput.substring(0,1).toUpperCase() + userInput.slice(1).toLowerCase();
@@ -13,7 +30,9 @@ function getUserInput() {
 
 }
 
-let result = '';
+let result = document.getElementById('round-winner');
+let playerScore = document.getElementById('user-score');
+let computerScore = document.getElementById('computer-score');
 
 //Generate computer choice
 function getComputerChoice () {
@@ -41,15 +60,19 @@ function getComputerChoice () {
 //Compare choices
 function playRound (a, b) {
     if(a === b) {
-        result = "It's a draw.";
+        result.textContent = "It's a draw.";
         return 'draw';
     } else if ((a === 'Rock' && b === 'Paper') ||
     (a === 'Paper' && b === 'Scissors') ||
     (a === 'Scissors' && b === "Rock")) {
-        result = `You Lose! ${b} beats ${a}`;
+        result.textContent = `You Lose! ${b} beats ${a}`;
+        compScore++;
+        computerScore.textContent = `Computer score: ${compScore}`;
         return 'lose';
     } else {
-        result = `You Win! ${a} beats ${b}`;
+        result.textContent = `You Win! ${a} beats ${b}`;
+        userScore++;
+        playerScore.textContent = `Your score: ${userScore}`;
         return 'win';
     }
 }
@@ -89,4 +112,4 @@ function game() {
     }
 }
 
-game();
+//game();
